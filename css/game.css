@@ -1,0 +1,362 @@
+#game-screen {
+    flex-direction: column;
+    background: radial-gradient(circle at center, #1e1b4b 0%, #090d16 100%);
+}
+
+.game-layout {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    gap: 3rem;
+}
+
+/* 3D Slanted Highway on Left */
+.game-highway {
+    position: relative;
+    width: 440px;
+    height: 85%;
+    max-height: 720px;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 27, 75, 0.95) 100%);
+    border-left: 3px solid rgba(139, 92, 246, 0.4);
+    border-right: 3px solid rgba(139, 92, 246, 0.4);
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.25), inset 0 0 30px rgba(0,0,0,0.8);
+    display: flex;
+    overflow: hidden;
+    perspective: 800px;
+    transform: rotateX(4deg);
+    border-radius: 16px;
+}
+
+/* Replaceable Image Panel on Right */
+.right-image-panel {
+    width: 360px;
+    height: 80%;
+    max-height: 650px;
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid var(--border-glass);
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+
+.image-wrapper {
+    flex: 1;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(1.25) contrast(1.1);
+    transition: transform 0.5s ease;
+}
+
+.image-wrapper:hover img {
+    transform: scale(1.05);
+}
+
+.image-overlay-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(15, 23, 42, 0.8);
+    color: #c4b5fd;
+    padding: 0.35rem 0.85rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    backdrop-filter: blur(6px);
+}
+
+.panel-info {
+    padding: 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: rgba(15, 23, 42, 0.95);
+    border-top: 1px solid var(--border-glass);
+}
+
+.panel-info h3 {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.panel-info p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Lane Elements */
+.lane {
+    flex: 1;
+    position: relative;
+    border-right: 1px dashed rgba(255, 255, 255, 0.1);
+    height: 100%;
+}
+.lane:last-child {
+    border-right: none;
+}
+
+.lane-marker {
+    position: absolute;
+    bottom: 20px;
+    left: 10%;
+    width: 80%;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    z-index: 4;
+}
+
+.lane.active-hit .lane-marker {
+    background: rgba(139, 92, 246, 0.4);
+    border-color: #c4b5fd;
+    color: #fff;
+    box-shadow: 0 0 15px #8b5cf6;
+}
+
+.word-node {
+    position: absolute;
+    width: 82%;
+    left: 9%;
+    padding: 0.75rem 0.25rem;
+    border-radius: 10px;
+    text-align: center;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.95rem;
+    user-select: none;
+    background: linear-gradient(135deg, #334155, #475569);
+    color: #f8fafc;
+    border: 1px solid #64748b;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.word-node.result-correct {
+    animation: correctHit 450ms ease-out forwards;
+}
+
+.word-node.result-wrong {
+    animation: wrongHit 450ms ease-out forwards;
+}
+
+@keyframes correctHit {
+    0% {
+        background: linear-gradient(135deg, #059669, #10b981);
+        border-color: #34d399;
+        box-shadow: 0 0 0 rgba(52, 211, 153, 0.8);
+        transform: scale(1);
+    }
+    45% {
+        background: linear-gradient(135deg, #10b981, #34d399);
+        box-shadow: 0 0 28px rgba(52, 211, 153, 0.9);
+        transform: scale(1.12);
+    }
+    100% {
+        background: linear-gradient(135deg, #059669, #10b981);
+        border-color: #34d399;
+        box-shadow: 0 0 0 rgba(52, 211, 153, 0);
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+@keyframes wrongHit {
+    0% {
+        background: linear-gradient(135deg, #dc2626, #ef4444);
+        border-color: #f87171;
+        box-shadow: 0 0 0 rgba(248, 113, 113, 0.8);
+        transform: scale(1);
+    }
+    25%, 75% {
+        background: linear-gradient(135deg, #ef4444, #f87171);
+        box-shadow: 0 0 28px rgba(248, 113, 113, 0.9);
+        transform: translateX(-7px) scale(1.06);
+    }
+    50% {
+        transform: translateX(7px) scale(1.06);
+    }
+    100% {
+        background: linear-gradient(135deg, #dc2626, #ef4444);
+        border-color: #f87171;
+        box-shadow: 0 0 0 rgba(248, 113, 113, 0);
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+/* ENHANCED REPORT SCREEN STYLING */
+#report-screen {
+    justify-content: center;
+    align-items: center;
+    background: rgba(10, 15, 30, 0.9);
+    backdrop-filter: blur(20px);
+}
+
+.report-modal {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 28px;
+    padding: 2.75rem;
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 40px rgba(139, 92, 246, 0.15);
+    animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.report-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.report-trophy {
+    font-size: 3rem;
+    background: rgba(139, 92, 246, 0.15);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(139, 92, 246, 0.35);
+    margin-bottom: 0.25rem;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+.report-header h2 {
+    font-family: var(--font-heading);
+    font-size: 2.25rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.report-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.stat-box.primary-stat {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(99, 102, 241, 0.1));
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    padding: 1.25rem;
+    border-radius: 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.stat-box.primary-stat .stat-number {
+    font-family: var(--font-heading);
+    font-size: 2.75rem;
+    font-weight: 900;
+    color: #c4b5fd;
+    text-shadow: 0 0 15px rgba(196, 181, 253, 0.4);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+}
+
+.stat-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-glass);
+    padding: 1rem;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    transition: transform 0.2s;
+}
+
+.stat-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    font-size: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-val {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.text-green { color: var(--color-easy); }
+.text-red { color: var(--color-hard); }
+.text-yellow { color: var(--color-medium); }
+.text-purple { color: #c4b5fd; }
+
+.report-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.report-actions .btn {
+    flex: 1;
+}
+
+@media (max-width: 900px) {
+    .right-image-panel { display: none; }
+    .game-highway { width: 100%; max-width: 420px; }
+}

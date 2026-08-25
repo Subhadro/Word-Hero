@@ -1,0 +1,32 @@
+@media (max-width: 900px) {
+    .difficulty-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+    }
+    .menu-header h1 {
+        font-size: 2.75rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .menu-container {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+    .menu-header h1 {
+        font-size: 2.25rem;
+    }
+    .difficulty-card {
+        padding: 1.75rem 1.5rem;
+    }
+    .game-hud {
+        padding: 0.75rem 1rem;
+    }
+    .hud-value {
+        font-size: 1.25rem;
+    }
+    .report-modal {
+        padding: 1.75rem;
+        margin: 1rem;
+    }
+}

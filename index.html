@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Hero: Respect Arcade</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/game.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="app">
+        <!-- SCREEN 1: MAIN MENU -->
+        <section id="menu-screen" class="screen active">
+            <div class="menu-container">
+                <header class="menu-header">
+                    <span class="badge">SEL Arcade Edition</span>
+                    <h1>Word Hero</h1>
+                    <p>Use keys 1-4 to catch positive words of respect and empathy on the rhythm highway!</p>
+                </header>
+
+                <div class="difficulty-grid">
+                    <div class="difficulty-card easy" data-difficulty="easy">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <span class="mode-tag">Relaxed</span>
+                            <h2>Easy Mode</h2>
+                            <ul class="mode-perks">
+                                <li>3 Lanes (Keys 1-3)</li>
+                                <li>Slower Speed</li>
+                                <li>High Positive Ratio</li>
+                            </ul>
+                            <button class="btn btn-easy">Start Easy</button>
+                        </div>
+                    </div>
+
+                    <div class="difficulty-card medium" data-difficulty="medium">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <span class="mode-tag">Balanced</span>
+                            <h2>Medium Mode</h2>
+                            <ul class="mode-perks">
+                                <li>4 Lanes (Keys 1-4)</li>
+                                <li>Moderate Speed</li>
+                                <li>Balanced Ratio</li>
+                            </ul>
+                            <button class="btn btn-medium">Start Medium</button>
+                        </div>
+                    </div>
+
+                    <div class="difficulty-card hard" data-difficulty="hard">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <span class="mode-tag">Expert</span>
+                            <h2>Hard Mode</h2>
+                            <ul class="mode-perks">
+                                <li>4 Lanes (Keys 1-4)</li>
+                                <li>Fast Speed & Spawns</li>
+                                <li>Negative Traps Active</li>
+                            </ul>
+                            <button class="btn btn-hard">Start Hard</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 2: GAMEPLAY SCREEN (Lane Left, Image Right) -->
+        <section id="game-screen" class="screen">
+            <header class="game-hud">
+                <div class="hud-item">
+                    <span class="hud-label">Score</span>
+                    <span id="score-val" class="hud-value">0</span>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">Streak</span>
+                    <span id="streak-val" class="hud-value">0x</span>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">Time</span>
+                    <span id="timer-val" class="hud-value">60</span>
+                </div>
+                <button id="pause-btn" class="btn-icon">⏸</button>
+            </header>
+
+            <div class="game-layout">
+                <!-- Left: 3D Rhythm Highway Lanes -->
+                <div id="game-arena" class="game-highway"></div>
+
+                <!-- Right: Replaceable Image / Arcade Banner Panel -->
+                <aside class="right-image-panel">
+                    <div class="image-wrapper">
+                        <!-- REPLACEABLE IMAGE: Change the 'src' attribute below to your own image later -->
+                        <img id="arcade-banner-img" src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=600&q=80" alt="Arcade Banner">
+                        <div class="image-overlay-badge">Live Highway</div>
+                    </div>
+                    <div class="panel-info">
+                        <h3>Respect & SEL Arcade</h3>
+                        <p>Press keys <strong>1, 2, 3, 4</strong> to hit falling positive word nodes!</p>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: ENHANCED END-OF-GAME REPORT -->
+        <section id="report-screen" class="screen">
+            <div class="report-modal">
+                <div class="report-header">
+                    <div class="report-trophy" id="report-trophy-icon">🏆</div>
+                    <span id="report-badge" class="badge">Mission Complete</span>
+                    <h2 id="report-grade-title">Respect Hero</h2>
+                </div>
+
+                <div class="report-stats">
+                    <div class="stat-box primary-stat">
+                        <span class="stat-label">Final Respect Score</span>
+                        <span id="final-score" class="stat-number">0</span>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-icon text-green">✓</div>
+                            <div class="stat-content">
+                                <span class="stat-label">Correct Selections</span>
+                                <span id="stat-correct" class="stat-val text-green">0</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon text-red">✕</div>
+                            <div class="stat-content">
+                                <span class="stat-label">Mistakes (Negative)</span>
+                                <span id="stat-mistakes" class="stat-val text-red">0</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon text-yellow">⚡</div>
+                            <div class="stat-content">
+                                <span class="stat-label">Missed Words</span>
+                                <span id="stat-missed" class="stat-val text-yellow">0</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon text-purple">📊</div>
+                            <div class="stat-content">
+                                <span class="stat-label">Accuracy Rate</span>
+                                <span id="stat-accuracy" class="stat-val">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-actions">
+                    <button id="restart-btn" class="btn btn-primary">Play Again</button>
+                    <button id="menu-btn" class="btn btn-secondary">Main Menu</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts Module Loader -->
+    <script src="js/audio.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/scoring.js"></script>
+    <script src="js/lanes.js"></script>
+    <script src="js/spawner.js"></script>
+    <script src="js/report.js"></script>
+    <script src="js/engine.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
