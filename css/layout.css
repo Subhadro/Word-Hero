@@ -1,118 +1,147 @@
 #menu-screen {
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    background: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 100%);
+	justify-content: center;
+	align-items: center;
+	padding: 2rem;
+	background: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 100%);
 }
 
 .menu-container {
-    max-width: 1200px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3rem;
+	max-width: 1200px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 3rem;
 }
 
 .menu-header {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
 }
 
 .menu-header h1 {
-    font-family: var(--font-heading);
-    font-size: 3.5rem;
-    font-weight: 900;
-    background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+	font-family: var(--font-heading);
+	font-size: 3.5rem;
+	font-weight: 900;
+	background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
 .menu-header p {
-    color: var(--text-muted);
-    font-size: 1.1rem;
-    max-width: 550px;
+	color: var(--text-muted);
+	font-size: 1.1rem;
+	max-width: 550px;
 }
 
 .difficulty-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    width: 100%;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 2rem;
+	width: 100%;
 }
 
 .difficulty-card {
-    position: relative;
-    background: var(--bg-glass);
-    border: 1px solid var(--border-glass);
-    border-radius: 20px;
-    padding: 2.5rem 2rem;
-    backdrop-filter: blur(12px);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    cursor: pointer;
-    overflow: hidden;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s;
+	position: relative;
+	background: var(--bg-glass);
+	border: 1px solid var(--border-glass);
+	border-radius: 20px;
+	padding: 2.5rem 2rem;
+	backdrop-filter: blur(12px);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	cursor: pointer;
+	overflow: hidden;
+	transition:
+		transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+		border-color 0.3s;
 }
 
 .difficulty-card:hover {
-    transform: translateY(-8px);
+	transform: translateY(-8px);
 }
 
-.difficulty-card.easy:hover { border-color: var(--color-easy); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2); }
-.difficulty-card.medium:hover { border-color: var(--color-medium); box-shadow: 0 10px 30px rgba(245, 158, 11, 0.2); }
-.difficulty-card.hard:hover { border-color: var(--color-hard); box-shadow: 0 10px 30px rgba(239, 68, 68, 0.2); }
+.difficulty-card.easy:hover {
+	border-color: var(--color-easy);
+	box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
+}
+.difficulty-card.medium:hover {
+	border-color: var(--color-medium);
+	box-shadow: 0 10px 30px rgba(245, 158, 11, 0.2);
+}
+.difficulty-card.hard:hover {
+	border-color: var(--color-hard);
+	box-shadow: 0 10px 30px rgba(239, 68, 68, 0.2);
+}
 
 .card-content {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    z-index: 2;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+	z-index: 2;
 }
 
 .mode-tag {
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
+	font-size: 0.8rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
 }
 
-.easy .mode-tag { color: var(--color-easy); }
-.medium .mode-tag { color: var(--color-medium); }
-.hard .mode-tag { color: var(--color-hard); }
+.easy .mode-tag {
+	color: var(--color-easy);
+}
+.medium .mode-tag {
+	color: var(--color-medium);
+}
+.hard .mode-tag {
+	color: var(--color-hard);
+}
 
 .difficulty-card h2 {
-    font-family: var(--font-heading);
-    font-size: 2rem;
-    font-weight: 800;
+	font-family: var(--font-heading);
+	font-size: 2rem;
+	font-weight: 800;
 }
 
 .mode-perks {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    color: var(--text-muted);
-    font-size: 0.95rem;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	color: var(--text-muted);
+	font-size: 0.95rem;
 }
 
 .mode-perks li::before {
-    content: "✓ ";
-    font-weight: bold;
+	content: "✓ ";
+	font-weight: bold;
 }
-.easy .mode-perks li::before { color: var(--color-easy); }
-.medium .mode-perks li::before { color: var(--color-medium); }
-.hard .mode-perks li::before { color: var(--color-hard); }
+.easy .mode-perks li::before {
+	color: var(--color-easy);
+}
+.medium .mode-perks li::before {
+	color: var(--color-medium);
+}
+.hard .mode-perks li::before {
+	color: var(--color-hard);
+}
 
 .difficulty-card .btn {
-    width: 100%;
-    margin-top: 1rem;
-    color: #fff;
+	width: 100%;
+	margin-top: 1rem;
+	color: #fff;
 }
-.easy .btn { background: var(--color-easy); }
-.medium .btn { background: var(--color-medium); }
-.hard .btn { background: var(--color-hard); }
+.easy .btn {
+	background: var(--color-easy);
+}
+.medium .btn {
+	background: var(--color-medium);
+}
+.hard .btn {
+	background: var(--color-hard);
+}
