@@ -40,7 +40,7 @@ class ScoreManager {
 	}
 	addDodgedNegative() {
 		//NOTE: streak 
-		const points = this.streak >= 10 ? 5 : 10;
+		const points = this.streak >= 10 ? 20 : 10;
 		this.score += points;
 		this.updateUI();
 		this.showScoreGain(points);

@@ -16,11 +16,11 @@ class ReportManager {
 		let badgeText = "Elite Performance!";
 		let trophyIcon = "🏆";
 
-		if (score < 50) {
+		if (score < 400) {
 			gradeTitle = "Needs Practice";
 			badgeText = "Keep Growing!";
 			trophyIcon = "🌱";
-		} else if (score < 150) {
+		} else if (score < 600) {
 			gradeTitle = "Good Effort";
 			badgeText = "Well Done!";
 			trophyIcon = "⭐";
