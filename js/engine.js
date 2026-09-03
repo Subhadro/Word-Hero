@@ -11,6 +11,7 @@ class GameEngine {
 		const config = WORD_DATABASE[difficultyKey];
 		if (!config) return;
 
+		this.currentDifficulty = difficultyKey;
 		ScoreState.reset();
 		window.gameActive = true;
 		window.gamePaused = false;
@@ -67,6 +68,7 @@ class GameEngine {
 	endGame() {
 		window.gameActive = false;
 		GameSpawner.stop();
+		AudioSystem.stopStreakBoost();
 		AudioSystem.stopBGM();
 		if (this.timerInterval) clearInterval(this.timerInterval);
 		ReportScreen.showReport();

@@ -11,6 +11,7 @@ class ScoreManager {
 		this.mistakeCount = 0;
 		this.missedCount = 0;
 		this.totalSpawned = 0;
+		this.updateUI();
 	}
 
 	addCorrect() {
@@ -38,17 +39,13 @@ class ScoreManager {
 		AudioSystem.playMistake();
 	}
 	addDodgedNegative() {
-		// ✅ Streak stays SAME (no change)
-		// ✅ Score stays SAME (no deduction, no addition)
-		this.score += 2;
+		//NOTE: streak 
+		const points = this.streak >= 10 ? 5 : 10;
+		this.score += points;
 		this.updateUI();
+		this.showScoreGain(points);
 
-		// 🎯 Add a satisfying visual/audio feedback for dodging
-		// Option 1: Play a soft "whoosh" sound
-		AudioSystem.playDodgeSound(); // You'll need to add this to audio.js
-
-		// Option 2: Flash the lane green briefly
-		// (This is handled in lanes.js)
+		AudioSystem.playDodgeSound();
 	}
 
 	getAccuracy() {
@@ -60,8 +57,36 @@ class ScoreManager {
 	updateUI() {
 		const scoreEl = document.getElementById("score-val");
 		const streakEl = document.getElementById("streak-val");
+		const arenaEl = document.getElementById("game-arena");
+		//NOTE: streak 
+		const boostActive = this.streak >= 10;
 		if (scoreEl) scoreEl.textContent = this.score;
 		if (streakEl) streakEl.textContent = `${this.streak}x`;
+		if (arenaEl) arenaEl.classList.toggle("streak-boost", boostActive);
+		if (scoreEl?.parentElement) {
+			scoreEl.parentElement.classList.toggle("streak-boost", boostActive);
+		}
+		if (streakEl?.parentElement) {
+			streakEl.parentElement.classList.toggle("streak-boost", boostActive);
+		}
+		if (boostActive) {
+			AudioSystem.startStreakBoost();
+		} else {
+			AudioSystem.stopStreakBoost();
+		}
+	}
+
+	showScoreGain(points) {
+		const scoreEl = document.getElementById("score-val");
+		if (!scoreEl || !scoreEl.parentElement) return;
+
+		const gainEl = document.createElement("span");
+		gainEl.className = "score-gain";
+		gainEl.textContent = `+${points}`;
+		scoreEl.parentElement.appendChild(gainEl);
+		gainEl.addEventListener("animationend", () => gainEl.remove(), {
+			once: true,
+		});
 	}
 }
 

@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const restartBtn = document.getElementById("restart-btn");
 	if (restartBtn) {
 		restartBtn.addEventListener("click", () => {
-			Engine.startGame("medium"); // Default restart to medium or save last mode
+			Engine.startGame(Engine.currentDifficulty || "medium");
 		});
 	}
 

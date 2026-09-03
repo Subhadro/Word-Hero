@@ -2,6 +2,8 @@ class AudioManager {
 	constructor() {
 		this.ctx = null;
 		this.bgmInterval = null;
+		this.boostNoiseSource = null;
+		this.boostNoiseGain = null;
 	}
 
 	init() {
@@ -83,6 +85,52 @@ class AudioManager {
 
 	stopBGM() {
 		if (this.bgmInterval) clearInterval(this.bgmInterval);
+	}
+
+	startStreakBoost() {
+		this.init();
+		if (this.boostNoiseSource || !this.ctx) return;
+
+		const buffer = this.ctx.createBuffer(
+			1,
+			this.ctx.sampleRate,
+			this.ctx.sampleRate,
+		);
+		const data = buffer.getChannelData(0);
+		for (let index = 0; index < data.length; index++) {
+			data[index] = Math.random() * 2 - 1;
+		}
+
+		const source = this.ctx.createBufferSource();
+		const filter = this.ctx.createBiquadFilter();
+		const gain = this.ctx.createGain();
+		source.buffer = buffer;
+		source.loop = true;
+		filter.type = "lowpass";
+		filter.frequency.value = 900;
+		gain.gain.value = 0.025;
+		source.connect(filter);
+		filter.connect(gain);
+		gain.connect(this.ctx.destination);
+		source.start();
+		this.boostNoiseSource = source;
+		this.boostNoiseGain = gain;
+	}
+
+	stopStreakBoost() {
+		if (!this.boostNoiseSource || !this.ctx) return;
+
+		const source = this.boostNoiseSource;
+		const gain = this.boostNoiseGain;
+		gain.gain.exponentialRampToValueAtTime(
+			0.001,
+			this.ctx.currentTime + 0.12,
+		);
+		source.stop(this.ctx.currentTime + 0.12);
+		source.onended = () => {
+			this.boostNoiseSource = null;
+			this.boostNoiseGain = null;
+		};
 	}
 }
 

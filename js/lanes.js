@@ -5,6 +5,8 @@ class LaneManager {
 	}
 
 	setupLanes(numLanes) {
+		this.invalidateNodes();
+		this.runId = (this.runId || 0) + 1;
 		this.arena.innerHTML = "";
 		this.lanes = [];
 		this.activeNodes = {};
@@ -33,6 +35,7 @@ class LaneManager {
 	spawnNode(wordObj, laneIndex, speed, onComplete) {
 		const lane = this.lanes[laneIndex];
 		if (!lane) return;
+		const runId = this.runId;
 
 		const node = document.createElement("div");
 		node.className = "word-node";
@@ -45,6 +48,7 @@ class LaneManager {
 			element: node,
 			wordObj: wordObj,
 			posY: -50,
+			resolved: false,
 		};
 
 		this.activeNodes[laneIndex].push(nodeData);
@@ -52,6 +56,8 @@ class LaneManager {
 		const arenaHeight = this.arena.clientHeight;
 
 		const animate = () => {
+			if (nodeData.resolved || runId !== this.runId) return;
+
 			if (!window.gameActive || window.gamePaused) {
 				requestAnimationFrame(animate);
 				return;
@@ -62,6 +68,7 @@ class LaneManager {
 
 			// Check if missed bottom
 			if (nodeData.posY > arenaHeight - 60) {
+				nodeData.resolved = true;
 				node.remove();
 				const index = this.activeNodes[laneIndex].indexOf(nodeData);
 				if (index > -1) this.activeNodes[laneIndex].splice(index, 1);
@@ -79,6 +86,15 @@ class LaneManager {
 		};
 
 		requestAnimationFrame(animate);
+	}
+
+	invalidateNodes() {
+		Object.values(this.activeNodes).forEach(nodes => {
+			nodes.forEach(nodeData => {
+				nodeData.resolved = true;
+				nodeData.element.remove();
+			});
+		});
 	}
 
 	// Triggered when user presses key for a lane
@@ -99,6 +115,7 @@ class LaneManager {
 		);
 
 		if (targetNode) {
+			targetNode.resolved = true;
 			const index = nodes.indexOf(targetNode);
 			if (index > -1) nodes.splice(index, 1);
 
