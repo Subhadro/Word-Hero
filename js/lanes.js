@@ -11,6 +11,10 @@ class LaneManager {
 		this.lanes = [];
 		this.activeNodes = {};
 
+		const hitZone = document.createElement("div");
+		hitZone.className = "hit-zone";
+		this.arena.appendChild(hitZone);
+
 		for (let i = 0; i < numLanes; i++) {
 			const lane = document.createElement("div");
 			lane.className = "lane";
@@ -41,6 +45,10 @@ class LaneManager {
 		node.className = "word-node";
 		node.textContent = wordObj.text;
 		node.style.top = "-50px";
+		const len = wordObj.text.length;
+		if (len > 18) node.style.fontSize = "0.6rem";
+		else if (len > 13) node.style.fontSize = "0.72rem";
+		else if (len > 9) node.style.fontSize = "0.82rem";
 
 		lane.appendChild(node);
 
@@ -102,17 +110,22 @@ class LaneManager {
 		const nodes = this.activeNodes[laneIndex];
 		if (!nodes || nodes.length === 0) return;
 
-		// Flash lane marker
-		const laneEl = this.lanes[laneIndex];
-		laneEl.classList.add("active-hit");
-		setTimeout(() => laneEl.classList.remove("active-hit"), 150);
-
 		// Get the lowest node (closest to hit zone)
 		const targetNode = nodes.reduce(
 			(lowest, current) =>
 				current.posY > lowest.posY ? current : lowest,
 			nodes[0],
 		);
+		const hitZone = this.arena.querySelector(".hit-zone");
+		const hitZoneTop = hitZone
+			? hitZone.offsetTop
+			: this.arena.clientHeight / 2;
+		const nodeBottom = targetNode.posY + targetNode.element.offsetHeight;
+		if (nodeBottom < hitZoneTop) return;
+		// Flash lane marker
+		const laneEl = this.lanes[laneIndex];
+		laneEl.classList.add("active-hit");
+		setTimeout(() => laneEl.classList.remove("active-hit"), 150);
 
 		if (targetNode) {
 			targetNode.resolved = true;
